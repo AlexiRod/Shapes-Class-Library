@@ -1,0 +1,12 @@
+D:\HSE\Myself\Projects\ShapesClassLibrary\ShapesClassLibrary\bin\Debug\net6.0\ShapesClassLibrary.deps.json
+D:\HSE\Myself\Projects\ShapesClassLibrary\ShapesClassLibrary\bin\Debug\net6.0\ShapesClassLibrary.dll
+D:\HSE\Myself\Projects\ShapesClassLibrary\ShapesClassLibrary\bin\Debug\net6.0\ref\ShapesClassLibrary.dll
+D:\HSE\Myself\Projects\ShapesClassLibrary\ShapesClassLibrary\bin\Debug\net6.0\ShapesClassLibrary.pdb
+D:\HSE\Myself\Projects\ShapesClassLibrary\ShapesClassLibrary\obj\Debug\net6.0\ShapesClassLibrary.csproj.AssemblyReference.cache
+D:\HSE\Myself\Projects\ShapesClassLibrary\ShapesClassLibrary\obj\Debug\net6.0\ShapesClassLibrary.GeneratedMSBuildEditorConfig.editorconfig
+D:\HSE\Myself\Projects\ShapesClassLibrary\ShapesClassLibrary\obj\Debug\net6.0\ShapesClassLibrary.AssemblyInfoInputs.cache
+D:\HSE\Myself\Projects\ShapesClassLibrary\ShapesClassLibrary\obj\Debug\net6.0\ShapesClassLibrary.AssemblyInfo.cs
+D:\HSE\Myself\Projects\ShapesClassLibrary\ShapesClassLibrary\obj\Debug\net6.0\ShapesClassLibrary.csproj.CoreCompileInputs.cache
+D:\HSE\Myself\Projects\ShapesClassLibrary\ShapesClassLibrary\obj\Debug\net6.0\ShapesClassLibrary.dll
+D:\HSE\Myself\Projects\ShapesClassLibrary\ShapesClassLibrary\obj\Debug\net6.0\ref\ShapesClassLibrary.dll
+D:\HSE\Myself\Projects\ShapesClassLibrary\ShapesClassLibrary\obj\Debug\net6.0\ShapesClassLibrary.pdb
