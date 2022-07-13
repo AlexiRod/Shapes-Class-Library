@@ -16,7 +16,8 @@ namespace ShapesClassLibrary
         /// </summary>
         /// <param name="topLeft">Верхняя левая точка квадрата</param>
         /// <param name="side">Длина стороны квадрата</param>
-        /// <exception cref="ArgumentException">Выбрасывается в случае отрицательной длины стороны</exception>
+        /// <exception cref="RectangleInitializationException">
+        /// Выбрасывается в случае отрицательной длины стороны квадрата</exception>
         public Square(Point topLeft, double side) : base(topLeft, new Point(topLeft.X + side, topLeft.Y + side))
         {
         }

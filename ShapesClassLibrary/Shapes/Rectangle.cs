@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShapesClassLibrary.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,10 +27,10 @@ namespace ShapesClassLibrary
         /// </summary>
         /// <param name="topLeft">Левая верхняя точка</param>
         /// <param name="bottomRight">Правая нижняя точка</param>
-        /// <exception cref="ArgumentException">Выбрасывается, если нарушена корректность точек и сторон прямоугольника</exception>
+        /// <exception cref="RectangleInitializationException">
+        /// Выбрасывается, если нарушена корректность точек и сторон прямоугольника</exception>
         public Rectangle(Point topLeft, Point bottomRight)
         {
-            
             TopLeftPoint = topLeft;
             BottomRightPoint = bottomRight;
             HorizontalSide = new Side(topLeft, new Point(topLeft.X, bottomRight.Y));
@@ -45,7 +46,8 @@ namespace ShapesClassLibrary
         /// </summary>
         /// <param name="horizontal">Горизонтальная сторона, соединяющая левую верхнюю и левую нижнюю сторону прямоугольника</param>
         /// <param name="vertical">Вертикальная сторона, соединяющая левую нижнюю и правую нижнюю сторону прямоугольника</param>
-        /// <exception cref="ArgumentException">Выбрасывается, если нарушена корректность точек и сторон прямоугольника</exception>
+        /// <exception cref="RectangleInitializationException">
+        /// Выбрасывается, если нарушена корректность точек и сторон прямоугольника</exception>
         public Rectangle(Side horizontal, Side vertical)
         {
             HorizontalSide = horizontal;
@@ -65,6 +67,7 @@ namespace ShapesClassLibrary
                    EqualityComparer<Point>.Default.Equals(TopLeftPoint, rectangle.TopLeftPoint) &&
                    EqualityComparer<Point>.Default.Equals(BottomRightPoint, rectangle.BottomRightPoint);
         }
+
         /// <summary>
         /// Хеш-код прямоугольника определяется по его левой вехрней и правой нижней точке
         /// </summary>
@@ -85,7 +88,8 @@ namespace ShapesClassLibrary
         /// <summary>
         /// Метод определения корректности прямоугольника по заданным параметрам и инициализация
         /// </summary>
-        /// <exception cref="ArgumentException">Выбрасывается, если:
+        /// <exception cref="RectangleInitializationException">
+        /// Выбрасывается, если:
         /// 1) Левая верхняя точка правее или ниже чем нижняя правая
         /// 2) Стороны не образуют прямоугольник с требуемым порядком точек ЛВ -> ЛН, ЛН -> ПН
         /// 3) Стороны не параллельны осям координат
@@ -93,13 +97,16 @@ namespace ShapesClassLibrary
         private void CheckRectangleRulesAndInitialize()
         {
             if (TopLeftPoint.X > BottomRightPoint.X || TopLeftPoint.Y > BottomRightPoint.Y)
-                throw new ArgumentException("Левая верхняя точка прямоугольника должна быть покоординатно левее и выше правой нижней.");
+                throw new RectangleInitializationException(
+                    "Левая верхняя точка прямоугольника должна быть покоординатно левее и выше правой нижней.");
 
             if (HorizontalSide.First.X != HorizontalSide.Second.X || VerticalSide.First.Y != VerticalSide.Second.Y)
-                throw new ArgumentException("Стороны прямоугольника должны быть параллельны соответствующим осям координат.");
+                throw new RectangleInitializationException(
+                    "Стороны прямоугольника должны быть параллельны соответствующим осям координат.");
 
             if (!HorizontalSide.Second.Equals(VerticalSide.First))
-                throw new ArgumentException("Стороны прямоугольника должны последовательно соединять три точки в следующем порядке: ЛВ -> ЛН, ЛН -> ПН.");
+                throw new RectangleInitializationException(
+                    "Стороны прямоугольника должны последовательно соединять три точки в следующем порядке: ЛВ -> ЛН, ЛН -> ПН.");
 
             InitializePoints(TopLeftPoint, BottomRightPoint);
             InitializeSides(VerticalSide, HorizontalSide);

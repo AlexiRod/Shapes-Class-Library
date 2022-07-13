@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShapesClassLibrary.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,13 +48,13 @@ namespace ShapesClassLibrary
         /// <param name="firstSide">Первая сторона треугольника, соединяющая точки 1 и 2</param>
         /// <param name="secondSide">Вторая сторона треугольника, соединяющая точки 2 и 3</param>
         /// <param name="thirdSide">Третья сторона треугольника, соединяющая точки 3 и 1</param>
-        /// <exception cref="ArgumentException">Выбрасывается, в случае, если стороны не образуют треугольник с требуемым порядком точек</exception>
+        /// <exception cref="SidesInitializationException">Выбрасывается, в случае, если стороны не образуют треугольник с требуемым порядком точек</exception>
         public Triangle(Side firstSide, Side secondSide, Side thirdSide)
         {
             if (!firstSide.Second.Equals(secondSide.First) ||
                 !secondSide.Second.Equals(thirdSide.First) ||
                 !thirdSide.Second.Equals(firstSide.First))
-                throw new ArgumentException("Стороны треугольника должны последовательно соединять ровно три точки.");
+                throw new SidesInitializationException("Стороны треугольника должны последовательно соединять ровно три точки.");
 
             FirstSide = firstSide;
             SecondSide = secondSide;
@@ -64,33 +65,39 @@ namespace ShapesClassLibrary
 
             CheckTriangleRuleAndInitialize();
         }
-        
+
         /// <summary>
-        /// Равенство треугольников определяется по равенству их соответствующих сторон, а соответственно и точек
+        /// Равенство треугольников определяется по равенству их соответствующих точек. Очередность точек здесь не важна
         /// </summary>
         public override bool Equals(object? obj)
         {
-            //if (!(obj is Triangle triangle))
-            //    return false;
+            if (!(obj is Triangle triangle))
+                return false;
 
-            //HashSet<Point> set = new HashSet<Point> { FirstPoint, SecondPoint, ThirdPoint };
-            //List<Point> points = new List<Point>{ triangle.FirstPoint, triangle.SecondPoint, triangle.ThirdPoint };
-            //foreach (var item in points)
-            //    if (!set.Remove(item))
-            //        return false;
-            //return set.Count == 0;
-            return obj is Triangle triangle &&
-                   EqualityComparer<Side>.Default.Equals(FirstSide, triangle.FirstSide) &&
-                   EqualityComparer<Side>.Default.Equals(SecondSide, triangle.SecondSide) &&
-                   EqualityComparer<Side>.Default.Equals(ThirdSide, triangle.ThirdSide);
+            HashSet<Point> thisPoints = new HashSet<Point> { FirstPoint, SecondPoint, ThirdPoint };
+            List<Point> otherPoints = new List<Point> { triangle.FirstPoint, triangle.SecondPoint, triangle.ThirdPoint };
+            foreach (var item in otherPoints)
+                if (!thisPoints.Remove(item))
+                    return false;
+            return thisPoints.Count == 0;
+
+            // Проверка на жесткое равенство нумерованных точек треугольников (Depricated)
+            //return obj is Triangle triangle &&
+            //       EqualityComparer<Side>.Default.Equals(FirstSide, triangle.FirstSide) &&
+            //       EqualityComparer<Side>.Default.Equals(SecondSide, triangle.SecondSide) &&
+            //       EqualityComparer<Side>.Default.Equals(ThirdSide, triangle.ThirdSide);
         }
 
         /// <summary>
-        /// Хеш-код треугольника определяется как хеш-код его сторон
+        /// Хеш-код треугольника определяется как хеш-код его сторон, порядок сторон не важен
         /// </summary>
         public override int GetHashCode()
         {
-            return HashCode.Combine(FirstSide, SecondSide, ThirdSide);
+            int res = 0;
+            // Так как стороны отсортированы, то порядок инициализации сторон двух одинаковых
+            // треугольников не важен, значит их HashCode будет одинаковым (тест t1 и t1Equal)
+            sides.ForEach(x => res = HashCode.Combine(res, x));
+            return res;
         }
 
         /// <summary>
@@ -102,6 +109,7 @@ namespace ShapesClassLibrary
             //if (sides.Count != 3) // Это исключение никогда не должно выкинуться
             //    throw new NotSupportedException("Стороны треугольника не определены.");
 
+            // Стороны отсортированы по длине => предполагаемая гипотенуза имеет индекс 2
             double a = sides[0].Length, b = sides[1].Length, c = sides[2].Length;
             return Math.Abs(a * a + b * b - c * c) < double.Epsilon;
         }
@@ -117,17 +125,16 @@ namespace ShapesClassLibrary
         }
 
         /// <summary>
-        /// Метод определения, можно ли создать треугольник по заданным параметром (проверка правила треугольника) 
+        /// Метод проверки, можно ли создать треугольник по заданным параметрам (проверка правила треугольника) 
         /// и инициализация массива точек и сторон фигуры
         /// </summary>
-        /// <exception cref="ArgumentException">Выбрасывается в случае нарушения правила треугольника</exception>
+        /// <exception cref="TriangleRuleException">Выбрасывается в случае нарушения правила треугольника</exception>
         private void CheckTriangleRuleAndInitialize()
         {
-
             if (FirstSide.Length >= SecondSide.Length + ThirdSide.Length ||
                 SecondSide.Length >= FirstSide.Length + ThirdSide.Length ||
                 ThirdSide.Length >= SecondSide.Length + FirstSide.Length)
-                throw new ArgumentException("Невозможно создать треугольник с такими сторонами. Нарушено правило треугольника.");
+                throw new TriangleRuleException("Невозможно создать треугольник с такими сторонами. Нарушено правило треугольника.");
 
             InitializePoints(FirstPoint, SecondPoint, ThirdPoint);
             InitializeSides(FirstSide, SecondSide, ThirdSide);

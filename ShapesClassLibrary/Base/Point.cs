@@ -43,9 +43,12 @@ namespace ShapesClassLibrary
             return HashCode.Combine(X, Y);
         }
 
+        /// <summary>
+        /// Строковое переопределение
+        /// </summary>
         public override string ToString()
         {
-            return $"{X}, {Y}";
+            return $"({X}; {Y})";
         }
     }
 }

@@ -22,6 +22,7 @@ namespace ShapesTests
             Assert.IsTrue(p1.Equals(p2));
             Assert.IsFalse(p1.Equals(p3));
             Assert.IsFalse(p1.Equals(null));
+            Assert.IsFalse(p1.Equals(123));
             Assert.IsFalse(p1.Equals("test"));
 
             Assert.AreEqual(p1.GetHashCode(), p2.GetHashCode());
@@ -29,7 +30,7 @@ namespace ShapesTests
         }
 
         /// <summary>
-        /// “естирование методов Equals и GetHashCode у стороны
+        /// “естирование методов Equals, GetHashCode и логики вычислени€ длины у стороны фигуры
         /// </summary>
         [TestMethod]
         public void TestSideEquality()
@@ -49,6 +50,7 @@ namespace ShapesTests
             Assert.IsTrue(s1.Equals(s4));
             Assert.IsFalse(s1.Equals(s3));
             Assert.IsFalse(s1.Equals(null));
+            Assert.IsFalse(s1.Equals(123));
             Assert.IsFalse(s1.Equals("test"));
 
             Assert.AreEqual(s1.GetHashCode(), s2.GetHashCode());

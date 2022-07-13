@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ShapesClassLibrary
 {
     /// <summary>
-    /// Класс стороны фигуры, т.е. линии, соединяющей две точки
+    /// Класс стороны фигуры, т.е. отрезка, соединяющего две точки
     /// </summary>
     public class Side
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShapesClassLibrary.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,11 +20,11 @@ namespace ShapesClassLibrary
         /// </summary>
         /// <param name="centerPoint">Центр окружности</param>
         /// <param name="radius">Радиус окружности</param>
-        /// <exception cref="ArgumentException">Выбрасывается в случае отрицательного радиуса</exception>
+        /// <exception cref="CircleInitializationException">Выбрасывается в случае отрицательного радиуса</exception>
         public Circle(Point centerPoint, double radius)
         {
             if (radius < 0)
-                throw new ArgumentException("Радиус должен быть положительным числом.");
+                throw new CircleInitializationException("Радиус должен быть положительным числом.");
             
             CenterPoint = centerPoint;
             Radius = radius;
